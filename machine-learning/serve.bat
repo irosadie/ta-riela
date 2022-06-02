@@ -1,0 +1,1 @@
+conda activate base && py index.py
