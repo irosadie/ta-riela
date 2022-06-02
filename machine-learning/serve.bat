@@ -1,1 +1,1 @@
-conda activate base && py index.py
+python index.py
