@@ -1,0 +1,164 @@
+*, ::before, ::after {
+    --tw-translate-x: 0;
+    --tw-translate-y: 0;
+    --tw-rotate: 0;
+    --tw-skew-x: 0;
+    --tw-skew-y: 0;
+    --tw-scale-x: 1;
+    --tw-scale-y: 1;
+    --tw-pan-x:  ;
+    --tw-pan-y:  ;
+    --tw-pinch-zoom:  ;
+    --tw-scroll-snap-strictness: proximity;
+    --tw-ordinal:  ;
+    --tw-slashed-zero:  ;
+    --tw-numeric-figure:  ;
+    --tw-numeric-spacing:  ;
+    --tw-numeric-fraction:  ;
+    --tw-ring-inset:  ;
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: rgb(92 105 233 / 0.5);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 0 #0000;
+    --tw-shadow-colored: 0 0 #0000;
+    --tw-blur:  ;
+    --tw-brightness:  ;
+    --tw-contrast:  ;
+    --tw-grayscale:  ;
+    --tw-hue-rotate:  ;
+    --tw-invert:  ;
+    --tw-saturate:  ;
+    --tw-sepia:  ;
+    --tw-drop-shadow:  ;
+    --tw-backdrop-blur:  ;
+    --tw-backdrop-brightness:  ;
+    --tw-backdrop-contrast:  ;
+    --tw-backdrop-grayscale:  ;
+    --tw-backdrop-hue-rotate:  ;
+    --tw-backdrop-invert:  ;
+    --tw-backdrop-opacity:  ;
+    --tw-backdrop-saturate:  ;
+    --tw-backdrop-sepia:  
+}
+.tw-mx-auto {
+    margin-left: auto !important;
+    margin-right: auto !important
+}
+.-tw-mx-6 {
+    margin-left: -1.5rem !important;
+    margin-right: -1.5rem !important
+}
+.tw-mb-1 {
+    margin-bottom: 0.25rem !important
+}
+.-tw-mt-4 {
+    margin-top: -1rem !important
+}
+.tw-mb-4 {
+    margin-bottom: 1rem !important
+}
+.tw-mb-0 {
+    margin-bottom: 0px !important
+}
+.tw-block {
+    display: block !important
+}
+.tw-flex {
+    display: flex !important
+}
+.tw-grid {
+    display: grid !important
+}
+.tw-max-h-80 {
+    max-height: 20rem !important
+}
+.tw-w-fit {
+    width: -webkit-fit-content !important;
+    width: -moz-fit-content !important;
+    width: fit-content !important
+}
+.tw-w-full {
+    width: 100% !important
+}
+.tw-flex-wrap {
+    flex-wrap: wrap !important
+}
+.tw-justify-center {
+    justify-content: center !important
+}
+.tw-gap-1 {
+    gap: 0.25rem !important
+}
+.tw-space-y-3 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0 !important;
+    margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse))) !important;
+    margin-bottom: calc(0.75rem * var(--tw-space-y-reverse)) !important
+}
+.tw-rounded-full {
+    border-radius: 9999px !important
+}
+.tw-bg-blue-400 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(124 145 225 / var(--tw-bg-opacity)) !important
+}
+.tw-bg-red-400 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(248 113 113 / var(--tw-bg-opacity)) !important
+}
+.tw-bg-gray-400 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(143 149 159 / var(--tw-bg-opacity)) !important
+}
+.tw-bg-green-400 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(60 167 115 / var(--tw-bg-opacity)) !important
+}
+.tw-bg-slate-100 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(241 245 249 / var(--tw-bg-opacity)) !important
+}
+.tw-bg-slate-400 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(148 163 184 / var(--tw-bg-opacity)) !important
+}
+.tw-bg-gray-100 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(240 241 243 / var(--tw-bg-opacity)) !important
+}
+.tw-object-contain {
+    -o-object-fit: contain !important;
+       object-fit: contain !important
+}
+.tw-px-3 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important
+}
+.tw-py-1 {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important
+}
+.tw-px-5 {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important
+}
+.tw-text-xs {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important
+}
+.tw-text-lg {
+    font-size: 1.125rem !important;
+    line-height: 1.75rem !important
+}
+.tw-text-base {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important
+}
+.tw-font-bold {
+    font-weight: 700 !important
+}
+.tw-text-white {
+    --tw-text-opacity: 1 !important;
+    color: rgb(255 255 255 / var(--tw-text-opacity)) !important
+}
