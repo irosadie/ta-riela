@@ -1,7 +1,6 @@
 <?php
 $params = require __DIR__ . '/params.php';
-$db_alumni = require __DIR__ . '/db_alumni.php';
-$db_smart = require __DIR__ . '/db_smart.php';
+$db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
@@ -59,13 +58,11 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db_alumni,
-        'db_smart' => $db_smart,
+        'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => [],
         ],
     ],
     'params' => $params,
