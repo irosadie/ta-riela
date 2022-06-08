@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\{
     Html,
     Url,
@@ -7,7 +8,7 @@ use yii\helpers\{
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
-$this->title = 'Data (Skunder)';
+$this->title = 'Data Pembobotan';
 
 ?>
 <?php Pjax::begin(); ?>
@@ -20,23 +21,23 @@ $this->title = 'Data (Skunder)';
                     <h4>Pilih Bobot yang Akan di Tampilkan</h4>
                 </div>
                 <div class="card-body mb-4">
-                    <?= Html::dropDownList('code', Yii::$app->request->get('code'), ['0.1'=>'10:90', '0.2'=>'20:80', '0.3'=>'30:70', '0.4'=>'40:60',], ['prompt'=>'--pilih--', 'class'=>'form-control select2', 'id'=>'code']) ?>
-                    <?php if($code): ?>
+                    <?= Html::dropDownList('code', Yii::$app->request->get('code'), ['0.1' => '10:90', '0.2' => '20:80', '0.3' => '30:70', '0.4' => '40:60',], ['prompt' => '--pilih--', 'class' => 'form-control select2', 'id' => 'code']) ?>
+                    <?php if ($code) : ?>
                     <button id="weighting" class="mt-4 btn btn-warning float-right btn-sm">Pembobotan Baru</button>
                     <?php endif; ?>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h4> <?=  $this->title ?></h4>
+                    <h4> <?= $this->title ?></h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <?php if($code!=NULL && $data && $data['data']): ?>
+                        <?php if ($code != NULL && $data && $data['data']) : ?>
                         <table class="table table-striped table-bordered table-md mb-4">
                             <tr>
                                 <td style="width:300px"><strong>Metode pembobotan</strong></td>
-                                <td><strong><?= $type=="tfidf"?"TF IDF":"TF ABS" ?></strong></td>
+                                <td><strong><?= $type == "tfidf" ? "TF IDF" : "TF ABS" ?></strong></td>
                             </tr>
                             <tr>
                                 <td><strong>Total Fitur</strong></td>
@@ -44,27 +45,27 @@ $this->title = 'Data (Skunder)';
                             </tr>
                             <tr>
                                 <td><strong>Total Data</strong></td>
-                                <td><?= count($data['data']['weight'])."/ ".$data['data']['info']['length'] ?></td>
+                                <td><?= count($data['data']['weight']) . "/ " . $data['data']['info']['length'] ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Persentase</strong></td>
-                                <td><?= (100-$code*100).":".($code*100) ?>
+                                <td><?= (100 - $code * 100) . ":" . ($code * 100) ?>
                                 </td>
                             </tr>
                         </table>
                         <?php endif; ?>
-                        <?php if($data && $data['data']): ?>
+                        <?php if ($data && $data['data']) : ?>
                         <div class="table-responsive" style="max-height: 500px;">
                             <table class="table table-bordered table-md">
                                 <tr>
-                                    <?php foreach($data['data']['indexing'] as $key => $value): ?>
+                                    <?php foreach ($data['data']['indexing'] as $key => $value) : ?>
                                     <th style="position:sticky;top: 0px; background-color:white;"><?= $value; ?></th>
                                     <?php endforeach; ?>
                                 </tr>
-                                <?php foreach($data['data']['weight'] as $key => $value): ?>
+                                <?php foreach ($data['data']['weight'] as $key => $value) : ?>
                                 <tr>
-                                    <?php foreach($value as $k => $v): ?>
-                                    <td><?= $k == count($value)-1?$v:round($v, 4); ?></td>
+                                    <?php foreach ($value as $k => $v) : ?>
+                                    <td><?= $k == count($value) - 1 ? $v : round($v, 4); ?></td>
                                     <?php endforeach; ?>
                                 </tr>
                                 <?php endforeach; ?>
@@ -74,7 +75,7 @@ $this->title = 'Data (Skunder)';
                             <i>loading</i>
                             yang lama.
                         </p>
-                        <?php else: ?>
+                        <?php else : ?>
                         <div class="alert alert-primary alert-has-icon alert-dismissible show fade">
                             <button class="close" data-dismiss="alert">
                                 <span>×</span>

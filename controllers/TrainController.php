@@ -3,23 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\web\{
-    Controller,
-    NotFoundHttpException,
-    Response,
-    UploadedFile
+    Controller
 };
 use yii\filters\{
-    VerbFilter,
-    AccessControl
+    VerbFilter
 };
 use app\utils\{
     service\Service
 };
 use yii\data\ArrayDataProvider;
-
-use yii\widgets\ActiveForm;
 
 class TrainController extends Controller
 {
@@ -31,7 +24,7 @@ class TrainController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -53,8 +46,12 @@ class TrainController extends Controller
 
         $path = "data/train.json";
         $data = file_get_contents($path);
-        $data = json_decode($data);
-
+        $data = json_decode($data, TRUE);
+        if ($code) :
+            $data = array_filter($data, function ($var) use ($code) {
+                return ($var['code'] == $code);
+            });
+        endif;
         $dataProvider = new ArrayDataProvider([
             'allModels' => $code && $data ? $data : [],
             'pagination' => [
@@ -79,7 +76,7 @@ class TrainController extends Controller
             //olah data
             $path = "data/train.json";
             $data = file_get_contents($path);
-            $data = json_decode($data);
+            $data = json_decode($data, TRUE);
             $new_data = ['id' => uniqid(), 'code' => $code, 'name' => $name, 'info' => $res['data']];
             array_push($data, $new_data);
             $json_data = json_encode($data);
@@ -89,8 +86,35 @@ class TrainController extends Controller
         return -1;
     }
 
+    public function actionDelete()
+    {
+        $id = Yii::$app->request->post('id');
+        $path = "data/train.json";
+        $data = file_get_contents($path);
+        $data = json_decode($data, TRUE);
+
+        if (count($data) == 1) :
+            file_put_contents($path, json_encode([]));
+            return 1;
+        endif;
+
+        $res = $this->searchArray($data, 'id', $id);
+        if ($res >= 0) :
+            unset($data[$res]);
+            $json_data = json_encode($data);
+            file_put_contents($path, $json_data);
+            return 1;
+        endif;
+        return -1;
+    }
+
     function searchArray($array, $key, $value)
     {
-        return array_search($value, array_column($array, $key));
+        foreach ($array as $k => $val) {
+            if ($val[$key] == $value) :
+                return $k;
+            endif;
+        }
+        return -1;
     }
 }

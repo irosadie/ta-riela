@@ -22,12 +22,6 @@ $config = [
             'identityClass' => 'app\models\identities\Users',
             'enableAutoLogin' => true,
         ],
-        'encryptor' => [
-            'class' => \app\utils\encrypt\Encryptor::class
-        ],
-        'log' => [
-            'class' => \app\utils\log\Log::class
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

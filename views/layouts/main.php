@@ -2,6 +2,7 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+
 use app\assets\StislaAsset;
 use yii\bootstrap4\Html;
 use app\utils\breadcrumb\Breadcrumb as BC;
@@ -42,10 +43,10 @@ $breadcrumb = BC::generateBreadcrumbs($router, "breadcrumb-item");
             <div class="main-sidebar">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="index.html">TA RILA</a>
+                        <a href="index.html">TA RIELA</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html">RL</a>
+                        <a href="index.html">RIELA</a>
                     </div>
                     <?= $this->render('menu') ?>
                 </aside>
@@ -56,7 +57,8 @@ $breadcrumb = BC::generateBreadcrumbs($router, "breadcrumb-item");
                 <section class="section">
                     <!-- breadcrumb -->
                     <div class="section-header">
-                        <h1><?= $this->context->title?$this->context->title:ucfirst(Yii::$app->controller->id) ?></h1>
+                        <h1><?= $this->context->title ? $this->context->title : ucfirst(Yii::$app->controller->id) ?>
+                        </h1>
                         <div class='section-header-breadcrumb'>
                             <?= $breadcrumb ?>
                         </div>
@@ -81,17 +83,17 @@ $breadcrumb = BC::generateBreadcrumbs($router, "breadcrumb-item");
     </div>
     <?php $this->endBody() ?>
     <?php
-        Modal::begin([
-            'title' => '<span id="modalTitle">Modal</span>',
-            'centerVertical' => true,
-            'id'=>'modal',
-            'size' => 'modal-lg',
-            'scrollable' => true,
-        ]);
+    Modal::begin([
+        'title' => '<span id="modalTitle">Modal</span>',
+        'centerVertical' => true,
+        'id' => 'modal',
+        'size' => 'modal-lg',
+        'scrollable' => true,
+    ]);
 
-        echo '<div id="modalContent"></div>';
+    echo '<div id="modalContent"></div>';
 
-        Modal::end();
+    Modal::end();
     ?>
 </body>
 

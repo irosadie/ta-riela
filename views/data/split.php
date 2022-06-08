@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\{
     Html,
     Url,
@@ -7,7 +8,7 @@ use yii\helpers\{
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
-$this->title = 'Data (Skunder)';
+$this->title = 'Pembagian Data';
 
 ?>
 <?php Pjax::begin(); ?>
@@ -20,8 +21,8 @@ $this->title = 'Data (Skunder)';
                     <h4>Pilih Data yang Akan di Tampilkan</h4>
                 </div>
                 <div class="card-body mb-4">
-                    <?= Html::dropDownList('code', Yii::$app->request->get('code'), ['0.1'=>'10:90', '0.2'=>'20:80', '0.3'=>'30:70', '0.4'=>'40:60',], ['prompt'=>'--pilih--', 'class'=>'form-control select2', 'id'=>'code']) ?>
-                    <?php if($code): ?>
+                    <?= Html::dropDownList('code', Yii::$app->request->get('code'), ['0.1' => '10:90', '0.2' => '20:80', '0.3' => '30:70', '0.4' => '40:60',], ['prompt' => '--pilih--', 'class' => 'form-control select2', 'id' => 'code']) ?>
+                    <?php if ($code) : ?>
                     <button id="split" class="mt-4 btn btn-warning float-right btn-sm">Pembagian Data
                         Baru</button>
                     <?php endif; ?>
@@ -29,23 +30,25 @@ $this->title = 'Data (Skunder)';
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h4> <?=  $this->title ?></h4>
+                    <h4> <?= $this->title ?></h4>
                     <div class="card-header-action">
-                        <?php if($code!=NULL): ?>
+                        <?php if ($code != NULL) : ?>
                         <button type="button" id="training"
-                            class="<?= $type=="training"?"btn btn-primary":"btn btn-highlight" ?>">Data Latih</button>
+                            class="<?= $type == "training" ? "btn btn-primary" : "btn btn-highlight" ?>">Data
+                            Latih</button>
                         <button type="button" id="testing"
-                            class="<?= $type=="testing"?"btn btn-primary":"btn btn-highlight" ?>">Data Uji</button>
+                            class="<?= $type == "testing" ? "btn btn-primary" : "btn btn-highlight" ?>">Data
+                            Uji</button>
                         <?php endif; ?>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <?php if($code!=NULL): ?>
+                        <?php if ($code != NULL) : ?>
                         <table class="table table-striped table-bordered table-md mb-4">
                             <tr>
                                 <td style="width:300px"><strong>Nama</strong></td>
-                                <td><?= $type=="training"?"Data Latih":"Data Uji" ?></td>
+                                <td><?= $type == "training" ? "Data Latih" : "Data Uji" ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Total</strong></td>
@@ -53,38 +56,36 @@ $this->title = 'Data (Skunder)';
                             </tr>
                             <tr>
                                 <td><strong>Persentase</strong></td>
-                                <td><?= $dataProvider->getTotalCount()?($type=="training"?100-$code*100:$code*100)."%":"-" ?>
+                                <td><?= $dataProvider->getTotalCount() ? ($type == "training" ? 100 - $code * 100 : $code * 100) . "%" : "-" ?>
                                 </td>
                             </tr>
                         </table>
                         <?php endif; ?>
                         <?= GridView::widget([
-                                'dataProvider' => $dataProvider,
-                                'tableOptions' => ['class' => 'table table-striped'],
-                                'summaryOptions' => ['class' => 'badge badge-light m-2'],
-                                'columns' => [
-                                    [
-                                        'class' => 'yii\grid\SerialColumn',
-                                        'header' => 'No.'
-                                    ],
-                                    [
-                                        'attribute' => 'download_at',
-                                        'label' => 'Tanggal (Unduh)',
-                                        'format' => 'raw',
-                                        'value' => function($model){
-                                            return $model['sentence'];
-                                        }
-                                    ],
-                                    [
-                                        'attribute' => 'label',
-                                        'label' => 'Label',
-                                        'format' => 'raw',
-                                        'value' => function($model){
-                                            return $model['label'];
-                                        }
-                                    ]
+                            'dataProvider' => $dataProvider,
+                            'tableOptions' => ['class' => 'table table-striped'],
+                            'summaryOptions' => ['class' => 'badge badge-light m-2'],
+                            'columns' => [
+                                [
+                                    'class' => 'yii\grid\SerialColumn',
+                                    'header' => 'No.'
                                 ],
-                            ]); ?>
+                                [
+                                    'label' => 'Tweet',
+                                    'format' => 'raw',
+                                    'value' => function ($model) {
+                                        return $model['sentence'];
+                                    }
+                                ],
+                                [
+                                    'label' => 'Label',
+                                    'format' => 'raw',
+                                    'value' => function ($model) {
+                                        return $model['label'];
+                                    }
+                                ]
+                            ],
+                        ]); ?>
                     </div>
                 </div>
             </div>

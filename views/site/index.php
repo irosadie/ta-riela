@@ -1,44 +1,24 @@
 <?php
-use yii\helpers\{
-    Html,
-    Url,
-    HtmlPurifier
-};
-use yii\grid\GridView;
-use yii\widgets\Pjax;
 
-$this->title = 'Data (Skunder)';
-
+use yii\helpers\Url;
 ?>
-<?php Pjax::begin(); ?>
-<?= $this->render('@app/views/site/_message') ?>
-<div class="index">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Perbarui Data Riset</h4>
-                </div>
-                <div class="card-body">
-                    UPLOAD
-                </div>
-            </div>
+
+<div class="hero text-white hero-bg-image hero-bg-parallax"
+    style="background-image: url('<?= Yii::$app->homeUrl ?>theme/stisla/assets/img/unsplash/andre-benz-1214056-unsplash.jpg');">
+    <div class="hero-inner">
+        <h2>Machine Learning untuk Klasifikasi NLP</h2>
+        <p class="lead">Gapailah cita-cita setinggi langit!</p>
+        <div class="mt-4">
+            <a href="<?= Url::to('@web/data/index') ?>" class="m-2 btn btn-outline-white btn-lg btn-icon icon-left"><i
+                    class="fas fa-database"></i> Lihat
+                Data</a>
+            &nbsp;
+            <a href="<?= Url::to('@web/train/index') ?>" class="m-2 btn btn-outline-white btn-lg btn-icon icon-left"><i
+                    class="fas fa-cogs"></i>
+                Pelatihan</a>
+            &nbsp;
+            <a href="<?= Url::to('@web/test/index') ?>" class="m-2 btn btn-outline-white btn-lg btn-icon icon-left"><i
+                    class="fas fa-list"></i> Pengujian</a>
         </div>
     </div>
 </div>
-<?php
-$js = <<< JS
-function init(){
-    return;
-};
-// call function
-init();
-$('.lazy').Lazy()
-$(document).on('pjax:popstate', function(){
-    $.pjax.reload({container: '#p0', timeout: false});
-});
-
-JS;
-$this->registerJs($js);
-?>
-<?php Pjax::end(); ?>

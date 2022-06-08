@@ -1,10 +1,11 @@
 <?php
+
 namespace app\controllers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\{
-    Controller, 
+    Controller,
     NotFoundHttpException,
     Response,
     UploadedFile
@@ -39,8 +40,9 @@ class DataController extends Controller
         );
     }
 
-    public function beforeAction($action) {
-        if($action->id == 'handle-file') :
+    public function beforeAction($action)
+    {
+        if ($action->id == 'handle-file') :
             Yii::$app->request->enableCsrfValidation = false;
         endif;
         return parent::beforeAction($action);
@@ -60,42 +62,46 @@ class DataController extends Controller
         ]);
     }
 
-    public function actionSplit($code=NULL, $type='train')
+    public function actionSplit($code = NULL, $type = 'train')
     {
-        $data = $code?Service::getDataSplit($code, $type):[];
+        $data = $code ? Service::getDataSplit($code, $type) : [];
         $dataProvider = new ArrayDataProvider([
-            'allModels' => $code?$data['data']:[],
+            'allModels' => $code ? $data['data'] : [],
             'pagination' => [
                 'pageSize' => 100,
             ],
         ]);
         return $this->render('split', [
             'dataProvider' => $dataProvider,
-            'code'=> $code,
+            'code' => $code,
             'type' => $type
         ]);
     }
 
-    public function actionSplitNew($code=0.2){
+    public function actionSplitNew($code = 0.2)
+    {
         return Service::postDataSplit($code);
     }
 
-    public function actionHandleFile(){
-        if($_SERVER['REQUEST_METHOD'] === 'DELETE'):
+    public function actionHandleFile()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') :
             Yii::$app->response->statusCode = 200;
             return;
         endif;
-        $tmp1 = array_key_first($_FILES);
-        $tmp2 = array_key_first($_FILES[$tmp1]['name']);
-        $fileIs = "$tmp1"."[".$tmp2."]";
-        try{
-            $file = UploadedFile::getInstanceByName($fileIs);
-            $gdrive = new GDrive();
-            $_file = $gdrive->uploadFile($file->name, $file->tempName, $file->type);
-            Yii::$app->response->statusCode = 200;
-            return Yii::$app->params['drive']['urlOpen'] . $_file;
-        }
-        catch(Exception $e){
+        try {
+            $path = 'data/tmp-file/import.xlsx';
+            if (move_uploaded_file($_FILES['data']['tmp_name'], $path)) :
+                $res = Service::postFile($path);
+                if ($res === 1) :
+                    Yii::$app->session->setFlash('success', 'Berhasil upload Data');
+                    Yii::$app->response->statusCode = 200;
+                    return;
+                endif;
+            endif;
+            Yii::$app->response->statusCode = 500;
+            return;
+        } catch (\Exception $e) {
             Yii::$app->response->statusCode = 500;
         }
     }

@@ -5,6 +5,9 @@ Credit by Imron Rosadi | https://imronrosadi.com or https://github.com/irosadie
 
 from flask import request
 from flask import jsonify
+from werkzeug.utils import secure_filename
+import os
+
 import logging
 import time
 import random
@@ -16,7 +19,7 @@ from core.tfidf import TfIdf
 from core.tfabs import TfAbs
 from core.svm import Svm
 
-from config.app import app
+from config.app import app, ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -298,25 +301,26 @@ def trainData():
         return jsonify({'status': status, 'msg': msg, 'data': result})
 
 
-@ app.route('/test', methods=['POST'])
+@ app.route('/test', methods=['POST', 'GET'])
 def testData():
     msg = "OK"
     status = 1
     result = None
-    test_result = None
     try:
         dt = Data()
-        tfIdf = TfIdf()
-        tfAbs = TfAbs()
-        svm = Svm()
-
-        model_name = request.form["model"]
-
-        model_path = f'data/model/{model_name}'
-        tfidf_model_path = f'data/model/tfidf/{model_name}'
-        tfabs_model_path = f'data/model/tfabs/{model_name}'
-
         if(request.method == 'POST'):
+            tfIdf = TfIdf()
+            tfAbs = TfAbs()
+            svm = Svm()
+
+            model_name = request.form["model"]
+
+            model_path = f'data/model/{model_name}'
+            tfidf_model_path = f'data/model/tfidf/{model_name}'
+            tfabs_model_path = f'data/model/tfabs/{model_name}'
+
+            tfidf_result_path = f'data/result/tfidf/{model_name}'
+            tfabs_result_path = f'data/result/tfabs/{model_name}'
 
             model = dt.dataPickleReading(model_path)
             code = model['info']['code']
@@ -377,14 +381,44 @@ def testData():
                             'measure': tfabs_measure, 'data': tfabs_data}
 
             result = {'tfidf': tfidf_result, 'tfabs': tfabs_result}
+
+            dt.dataPickleWriting(tfidf_result_path, result['tfidf'])
+            dt.dataPickleWriting(tfabs_result_path, result['tfabs'])
+
         else:
-            result = []
+            test_path = f'data/result/{request.args["type"]}/{request.args["model"]}'
+            result = dt.dataPickleReading(test_path)
         status = 1
     except Exception as e:
         msg = str(e)
         status = 0
     finally:
         return jsonify({'status': status, 'msg': msg, 'data': result})
+
+
+@ app.route('/upload', methods=['POST'])
+def uploadData():
+    msg = "OK"
+    status = 1
+    result = None
+    try:
+        file = request.files['data']
+        if file and allowed_file(file.filename):
+            filename = secure_filename('import.xlsx')
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            result = 1
+        else:
+            raise Exception(f"Upload file is failed!")
+    except Exception as e:
+        msg = str(e)
+        status = 0
+    finally:
+        return jsonify({'status': status, 'msg': msg, 'data': result})
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 if __name__ == "__main__":

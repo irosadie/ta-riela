@@ -8,7 +8,7 @@ use yii\helpers\{
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
-$this->title = 'Data (Skunder)';
+$this->title = 'Model Pelatihan';
 
 ?>
 <?php Pjax::begin(); ?>
@@ -18,7 +18,7 @@ $this->title = 'Data (Skunder)';
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Pilih Bobot yang Akan di Tampilkan</h4>
+                    <h4>Pilih Pelatihan yang Akan di Tampilkan</h4>
                 </div>
                 <div class="card-body mb-4">
                     <?= Html::dropDownList('code', Yii::$app->request->get('code'), ['0.1' => '10:90', '0.2' => '20:80', '0.3' => '30:70', '0.4' => '40:60',], ['prompt' => '--pilih--', 'class' => 'form-control select2', 'id' => 'code']) ?>
@@ -72,44 +72,60 @@ $this->title = 'Data (Skunder)';
                                         'label' => 'Nama Pelatihan',
                                         'format' => 'raw',
                                         'value' => function ($model) {
-                                            return $model->name;
+                                            return $model['name'];
                                         }
                                     ],
                                     [
                                         'label' => 'C',
                                         'format' => 'raw',
                                         'value' => function ($model) {
-                                            return $model->info->params->C;
+                                            return $model['info']['params']['C'];
                                         }
                                     ],
                                     [
                                         'label' => 'degree',
                                         'format' => 'raw',
                                         'value' => function ($model) {
-                                            return $model->info->params->degree;
+                                            return $model['info']['params']['degree'];
                                         }
                                     ],
                                     [
-                                        'label' => 'Waktu Training',
+                                        'label' => 'Waktu Pelatihan',
                                         'format' => 'raw',
                                         'value' => function ($model) {
-                                            return date('d/m/Y h:i:s', $model->info->trained_at);
+                                            return date('d/m/Y h:i:s', $model['info']['trained_at']);
                                         }
                                     ],
                                     [
-                                        'label' => 'Lama Training (TF.IDF)',
+                                        'label' => 'Lama Pelatihan (TF.IDF)',
                                         'format' => 'raw',
                                         'value' => function ($model) {
-                                            return round($model->info->execution_time->time->tfidf, 3) . " second";
+                                            return round($model['info']['execution_time']['time']['tfidf'], 3) . " second";
                                         }
                                     ],
                                     [
-                                        'label' => 'Lama Training (TF.ABS)',
+                                        'label' => 'Lama Pelatihan (TF.ABS)',
                                         'format' => 'raw',
                                         'value' => function ($model) {
-                                            return round($model->info->execution_time->time->tfabs, 3) . " second";
+                                            return round($model['info']['execution_time']['time']['tfabs'], 3) . " second";
                                         }
-                                    ]
+                                    ],
+                                    [
+                                        'class' => 'yii\grid\ActionColumn',
+                                        'contentOptions' => ['style' => 'width:150px;'],
+                                        'header' => 'Action',
+                                        'visibleButtons' => [
+                                            'update' => false,
+                                            'delete' => false,
+                                            'view' => true,
+                                        ],
+                                        'template' => '{view}',
+                                        'buttons' => array(
+                                            'view' => function ($url, $model, $key) {
+                                                return Html::a('<i class="fas fa-trash"></i> delete', '#', ['data-id' => $model['id'], 'class' => 'btn btn-sm btn-danger m-1 delete']);
+                                            }
+                                        )
+                                    ],
                                 ],
                             ]); ?>
                     </div>
@@ -121,7 +137,7 @@ $this->title = 'Data (Skunder)';
                         <div class="alert-icon"><i class="fas fa-bell"></i></div>
                         <div class="alert-body">
                             <div class="alert-title">Oups!</div>
-                            <p>Pembobotan pada pembagian data ini belum ada, buat pembobotan baru dulu yuk!</p>
+                            <p>Pelatihan (Model) pada pembagian data ini belum ada, buat pembobotan baru dulu yuk!</p>
                         </div>
                     </div>
                     <?php endif; ?>
@@ -174,7 +190,71 @@ function processData(for_, name, code, degree, c){
         if(data==1){
             swal(
                 'Berhasil',
-                'Data berhasil di bagi :)',
+                'Data berhasil di latih :)',
+                'success'
+            ).then(function () {
+                window.location.reload();
+            });
+        }
+        else{
+            swal(
+                'Oups Galat!!!',
+                'Sepertinya ada yang salah, coba ulangi',
+                'error'
+            ).then(function () {
+                window.location.reload();
+            });
+        }
+    }, function (dismiss) {
+        if (dismiss === 'cancel') {
+            swal(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+            )
+        }
+    });
+}
+function deleteData(for_, id){
+    let url;
+    switch(for_){
+        case "delete":
+            url= baseUrl+controller+'/delete';
+            break;
+    }
+    swal({
+        title: 'Hapus Data',
+        text: "Yakin ingin menghapus pelatihan ini?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Iya',
+        cancelButtonText: 'Batalkan',
+        buttonsStyling: true,
+        showLoaderOnConfirm: true,
+        preConfirm: function (data) {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: url,
+                    data: {
+                        id: id,
+                        _csrf: _csrf
+                    },
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success:function(result){
+                        resolve(result);
+                    },
+                });
+
+            })
+        },
+    }).then(function (data) {
+        if(data==1){
+            swal(
+                'Berhasil',
+                'Data berhasil di hapus :)',
                 'success'
             ).then(function () {
                 window.location.reload();
@@ -227,6 +307,12 @@ function init(){
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         processData('training', name, urlParams.get('code'), degree, c);
+    })
+
+    $('.delete').click(function(e){
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        deleteData('delete', id);
     })
 
     return;

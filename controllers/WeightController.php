@@ -1,24 +1,17 @@
 <?php
+
 namespace app\controllers;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\web\{
-    Controller, 
-    NotFoundHttpException,
-    Response,
-    UploadedFile
+    Controller
 };
 use yii\filters\{
-    VerbFilter,
-    AccessControl
+    VerbFilter
 };
 use app\utils\{
     service\Service
 };
-use yii\data\ArrayDataProvider;
-
-use yii\widgets\ActiveForm;
 
 class WeightController extends Controller
 {
@@ -30,7 +23,7 @@ class WeightController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -39,25 +32,27 @@ class WeightController extends Controller
         );
     }
 
-    public function beforeAction($action) {
-        if($action->id == 'handle-file') :
+    public function beforeAction($action)
+    {
+        if ($action->id == 'handle-file') :
             Yii::$app->request->enableCsrfValidation = false;
         endif;
         return parent::beforeAction($action);
     }
 
-    public function actionIndex($code=NULL, $type='tfidf')
+    public function actionIndex($code = NULL, $type = 'tfidf')
     {
-        $this->title = $type=='tfidf'?"Pembobotan TF.IDF":"Pembobotan TF.ABS";
-        $data = $code?Service::getWeighting($code, $type):[];
+        $this->title = $type == 'tfidf' ? "Pembobotan TF.IDF" : "Pembobotan TF.ABS";
+        $data = $code ? Service::getWeighting($code, $type) : [];
         return $this->render('index', [
             'data' => $data,
-            'code'=> $code,
+            'code' => $code,
             'type' => $type
         ]);
     }
 
-    public function actionWeightingNew($code=0.2, $type='tfidf'){
+    public function actionWeightingNew($code = 0.2, $type = 'tfidf')
+    {
         return Service::postWeighting($code, $type);
     }
 }
