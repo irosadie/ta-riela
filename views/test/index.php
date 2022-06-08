@@ -122,6 +122,8 @@ function processData(for_, name, code, degree, c){
         cancelButtonText: 'Batalkan',
         buttonsStyling: true,
         showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
         preConfirm: function (data) {
             return new Promise(function (resolve, reject) {
                 $.ajax({
@@ -189,6 +191,8 @@ function deleteData(for_, id){
         cancelButtonText: 'Batalkan',
         buttonsStyling: true,
         showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
         preConfirm: function (data) {
             return new Promise(function (resolve, reject) {
                 $.ajax({
