@@ -237,7 +237,7 @@ def trainData():
             code = request.form.get('code', default=0.2, type=float)
             C = request.form.get('C', default=1.0, type=float)
             kernel = request.form.get('kernel', default='rbf', type=str)
-            degree = request.form.get('degree', default=3, type=int)
+            degree = request.form.get('degree', default=3.0, type=float)
             gamma = request.form.get('gamma', default='auto', type=str)
 
             dt = Data()

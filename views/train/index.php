@@ -33,8 +33,8 @@ $this->title = 'Model Pelatihan';
                         <div class="form-group col-2">
                             <label for="exampleInputEmail1">Degree</label>
                             <input type="number" class="form-control" id="is-degree" placeholder="Nilai Degree"
-                                value="3">
-                            <small id="emailHelp" class="form-text text-muted">nilai degree, default =3</small>
+                                value="3.0">
+                            <small id="emailHelp" class="form-text text-muted">nilai degree, default =3.0</small>
                         </div>
 
                         <div class="form-group col-2">

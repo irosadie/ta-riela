@@ -13,7 +13,7 @@ class Svm:
     def __init__(self):
         return
 
-    def training(self, X, y, C=1.0, kernel='rbf', degree=3, gamma='auto'):
+    def training(self, X, y, C=1.0, kernel='rbf', degree=3.0, gamma='auto'):
         clf = make_pipeline(StandardScaler(), SVC(
             C=C, kernel=kernel, degree=degree, gamma=gamma))
         clf.fit(X, y)
